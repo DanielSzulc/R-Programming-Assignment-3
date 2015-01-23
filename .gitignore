@@ -9,3 +9,10 @@
 
 # RStudio files
 .Rproj.user/
+
+# PDF files
+*.pdf
+
+#No CSV and ZIP files
+*.csv
+*.zip
