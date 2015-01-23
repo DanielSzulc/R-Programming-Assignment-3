@@ -1,1 +1,1 @@
-##rankall.R
+##rankall.R - komment
