@@ -2,7 +2,7 @@
 
 best <- function(state, outcome) {
         ## Read outcome data
-        data<-read.csv("outcome-of-care-measures.csv")
+        data<-read.csv("outcome-of-care-measures.csv",colClasses="character")
         possible_outcomes<-c("heart attack","heart failure","pneumonia")
         
         ## Check that state and outcome are valid
