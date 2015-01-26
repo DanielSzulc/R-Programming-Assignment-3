@@ -16,37 +16,34 @@ rankall <- function(outcome, num = "best") {
         if (num=="best") {num <-1}
         s<-split(data,data[,7])
         
-        for (i in length(s))
+        df<-data.frame(hospital=" ",state=" ")
+        for (i in 1:length(s))
         {
+                sp<-s[[i]]
+                sp<-sp[,c(2,7,col_num)]
+                sp<-sp[complete.cases(sp),]
+                
+                ord<-order(sp[,3],sp[,1])
+                ##print(sp[ord,c(2,col_num)])
+                if (num=="worst") {num <-length(ord)} else num<-num
+                
+                hosp=sp[ord[num],1]
+                
+                if (as.numeric(num)>length(ord)) 
+                {       hosp=NA
+                        
+                }
+                
+                
+                state=sp[1,2]
+                d<-data.frame(hosp,state)
+                names(d)<-c("hospital","state")
+                df<-rbind(df,d)
                 
         }
-        df<-sapply(s, function(x) each_state(split=x,col=col_num,num=num))
-        ##print(df)
-        dm<-matrix(df,ncol(df),2)
-        dm
+        
         ## Return a data frame with the hospital names and the
         ## (abbreviated) state name
-        ##df<-data.frame(hospital=df[1:nrow(df),1],state=df[1:nrow(df),2])
-        ##colnames(df)<-c("hospital","state")
-        ##df
-}
-each_state <-function(split,col,num)
-{
-    ord<-order(split[,col],split[,2])
-    if (num=="worst") {num <-length(ord)}
-    
-    else if (as.numeric(num)>length(ord)) {
-            k1<-NA
-            k2<-split[1,7]
-            m<-c(k1,k2)
-            return(m)
-            ##invisible(m)    
-            
-    }
-    
-    k1<-split[ord[num],2]
-    k2<-split[ord[num],7]
-    m<-c(k1,k2)
-    return(m)
-    ##invisible(m)
+        #
+        df[-1,]
 }
