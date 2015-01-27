@@ -16,3 +16,6 @@
 #No CSV and ZIP files
 *.csv
 *.zip
+
+#No RProf output files
+*.out
