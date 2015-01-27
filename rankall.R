@@ -14,34 +14,21 @@ rankall <- function(outcome, num = "best") {
         else 23
         ## For each state, find the hospital of the given rank
         if (num=="best") {num <-1}
-        s<-split(data,data[,7])
+        subdata<-data[,c(2,7,col_num)]
+        subdata[,3]<-as.numeric(subdata[,3])
+        subdata<-subdata[complete.cases(subdata),]
         
-        df<-data.frame(hospital=" ",state=" ")
+        s<-split(subdata,subdata[,2])
+        df<-data.frame()
         for (i in 1:length(s))
         {
-                sp<-s[[i]]
-                sp<-sp[,c(2,7,col_num)]
-                sp<-sp[complete.cases(sp),]
-                
-                ord<-order(sp[,3],sp[,1])
-                ##print(sp[ord,c(2,col_num)])
-                if (num=="worst") {num <-length(ord)} else num<-num
-                
-                hosp=sp[ord[num],1]
-                
-                if (as.numeric(num)>length(ord)) 
-                {       hosp=NA
-                        
-                }
-                
-                
-                state=sp[1,2]
-                d<-data.frame(hosp,state)
-                names(d)<-c("hospital","state")
-                df<-rbind(df,d)
+                ss<-s[[i]]
+                rank<-order(ss[,3],ss[,1])
+                if(num=="worst") num<-length(rank) else num<-num
+                df<-rbind(df,data.frame(ss[rank[num],1],ss[2,2]))
                 
         }
-        
+        colnames(df)<-c("hospital","state")
         ## Return a data frame with the hospital names and the
         ## (abbreviated) state name
         #
